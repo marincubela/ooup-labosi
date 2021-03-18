@@ -74,6 +74,20 @@ struct Animal* createCat(char const* ime) {
     return p;
 }
 
+struct Animal* createNDogs(int n) {
+    if (n < 1) {
+        return NULL;
+    }
+
+    struct Animal* p = (struct Animal*)malloc(n * sizeof(struct Animal));
+
+    for (int i = 0; i < n; i++) {
+        constructDog(p + i, "A");
+    }
+
+    return p;
+}
+
 void testAnimals(void) {
     struct Animal* p1 = createDog("Hamlet");
     struct Animal* p2 = createCat("Ofelija");
