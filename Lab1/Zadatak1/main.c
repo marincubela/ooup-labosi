@@ -40,8 +40,8 @@ void initialize() {
 }
 
 struct Animal {
-    char const* ime;
     PTRFUN* vptr;
+    char const* ime;
 };
 
 void animalPrintGreeting(struct Animal* p) {
