@@ -3,9 +3,6 @@
 
 typedef char const* (*PTRFUN)();
 
-PTRFUN* dogVtable = NULL;
-PTRFUN* catVtable = NULL;
-
 char const* dogGreet(void) {
     return "vau!";
 }
@@ -22,22 +19,8 @@ char const* catMenu(void) {
     return "konzerviranu tunjevinu";
 }
 
-void initializeDogVtable() {
-    dogVtable = (PTRFUN*)malloc(2 * sizeof(PTRFUN));
-    dogVtable[0] = dogGreet;
-    dogVtable[1] = dogMenu;
-}
-
-void initializeCatVtable() {
-    catVtable = (PTRFUN*)malloc(2 * sizeof(PTRFUN));
-    catVtable[0] = catGreet;
-    catVtable[1] = catMenu;
-}
-
-void initialize() {
-    initializeDogVtable();
-    initializeCatVtable();
-}
+PTRFUN dogVtable[2] = {dogGreet, dogMenu};
+PTRFUN catVtable[2] = {catGreet, catMenu};
 
 struct Animal {
     PTRFUN* vptr;
@@ -52,26 +35,26 @@ void animalPrintMenu(struct Animal* p) {
     printf("%s\n", p->vptr[1]());
 }
 
-void constructDog(struct Animal* p, char const* ime) {
-    p->ime = ime;
-    p->vptr = dogVtable;
+void constructDog(struct Animal* this, char const* ime) {
+    this->ime = ime;
+    this->vptr = dogVtable;
 }
 
 struct Animal* createDog(char const* ime) {
-    struct Animal* p = (struct Animal*)malloc(sizeof(struct Animal));
-    constructDog(p, ime);
-    return p;
+    struct Animal* this = (struct Animal*)malloc(sizeof(struct Animal));
+    constructDog(this, ime);
+    return this;
 }
 
-void constructCat(struct Animal* p, char const* ime) {
-    p->ime = ime;
-    p->vptr = dogVtable;
+void constructCat(struct Animal* this, char const* ime) {
+    this->ime = ime;
+    this->vptr = catVtable;
 }
 
 struct Animal* createCat(char const* ime) {
-    struct Animal* p = (struct Animal*)malloc(sizeof(struct Animal));
-    constructCat(p, ime);
-    return p;
+    struct Animal* this = (struct Animal*)malloc(sizeof(struct Animal));
+    constructCat(this, ime);
+    return this;
 }
 
 struct Animal* createNDogs(int n) {
@@ -107,7 +90,7 @@ void testAnimals(void) {
 }
 
 int main(void) {
-    initialize();
     testAnimals();
+    getchar();
     return 0;
 }
