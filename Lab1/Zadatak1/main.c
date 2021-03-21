@@ -91,6 +91,5 @@ void testAnimals(void) {
 
 int main(void) {
     testAnimals();
-    getchar();
     return 0;
 }
