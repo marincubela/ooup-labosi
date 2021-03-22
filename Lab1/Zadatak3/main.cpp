@@ -19,7 +19,5 @@ class PlainOldClass {
 
 int main(void) {
     printf("Size of plain old class: %d\nSize of cool class: %d", sizeof(PlainOldClass), sizeof(CoolClass));
-
-    getchar();
     return 0;
 }

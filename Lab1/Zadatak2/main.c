@@ -4,19 +4,11 @@
 typedef struct Unary_Function_s Unary_Function;
 typedef double (*PTRFUN)(Unary_Function *this, double x);
 
-PTRFUN *unaryVtable;
-PTRFUN *squareVtable;
-PTRFUN *linearVtable;
-
 struct Unary_Function_s {
     PTRFUN *vptr;
     int lower_bound;
     int upper_bound;
 };
-
-double Unary_value_at(Unary_Function *this, double x) {
-    return 0;
-}
 
 double Unary_negative_value_at(Unary_Function *this, double x) {
     return -this->vptr[0](this, x);
@@ -41,6 +33,8 @@ int same_functions_for_ints(Unary_Function *f1, Unary_Function *f2, double toler
     return 1;
 }
 
+PTRFUN unaryVtable[2] = {NULL, Unary_negative_value_at};
+
 void construct(Unary_Function *this, int lb, int ub) {
     this->vptr = unaryVtable;
     this->lower_bound = lb;
@@ -60,6 +54,8 @@ typedef struct Square_s {
 double square_value_at(Unary_Function *this, double x) {
     return x * x;
 }
+
+PTRFUN squareVtable[2] = {square_value_at, Unary_negative_value_at};
 
 void construct_Square(Square *this, int lb, int ub) {
     this->super = *create_Unary_Function(lb, ub);
@@ -82,6 +78,8 @@ double linear_value_at(Unary_Function *this, double x) {
     return ((Linear *)this)->a * x + ((Linear *)this)->b;
 }
 
+PTRFUN linearVtable[2] = {linear_value_at, Unary_negative_value_at};
+
 void construct_Linear(Linear *this, int lb, int ub, double a_coef, double b_coef) {
     this->super = *create_Unary_Function(lb, ub);
     this->super.vptr = linearVtable;
@@ -95,39 +93,7 @@ Linear *create_Linear(int lb, int ub, double a_coef, double b_coef) {
     return this;
 }
 
-void initialize_Unary() {
-    unaryVtable = (PTRFUN *)malloc(2 * sizeof(PTRFUN));
-    unaryVtable[0] = Unary_value_at;
-    unaryVtable[1] = Unary_negative_value_at;
-}
-
-void initialize_Square() {
-    squareVtable = (PTRFUN *)malloc(2 * sizeof(PTRFUN));
-    squareVtable[0] = square_value_at;
-    squareVtable[1] = unaryVtable[1];
-}
-
-void initialize_Linear() {
-    linearVtable = (PTRFUN *)malloc(2 * sizeof(PTRFUN));
-    linearVtable[0] = linear_value_at;
-    linearVtable[1] = unaryVtable[1];
-}
-
-void initialize() {
-    initialize_Unary();
-    initialize_Square();
-    initialize_Linear();
-}
-
-void freeVtable() {
-    free(unaryVtable);
-    free(squareVtable);
-    free(linearVtable);
-}
-
 int main(void) {
-    initialize();
-
     Unary_Function *f1 = (Unary_Function *)create_Square(-2, 2);
     Unary_tabulate(f1);
 
@@ -139,7 +105,5 @@ int main(void) {
 
     free(f1);
     free(f2);
-    freeVtable();
-    getchar();
     return 0;
 }
