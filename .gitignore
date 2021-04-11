@@ -1,3 +1,9 @@
 *.exe
 
 .vscode
+
+.idea
+
+out
+
+*.iml
