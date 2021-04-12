@@ -1,7 +1,7 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class TipkovnickiIzvor implements Izvor{
+public class TipkovnickiIzvor implements Izvor {
     private Scanner sc;
 
     public TipkovnickiIzvor() {
@@ -11,11 +11,15 @@ public class TipkovnickiIzvor implements Izvor{
     @Override
     public int getNextNumber() {
         try {
-            return sc.nextInt();
-        } catch(InputMismatchException e) {
+            int n = sc.nextInt();
+            if (n == -1) {
+                sc.close();
+            }
+            return n;
+        } catch (InputMismatchException e) {
             System.out.println("Ocekujem pozitivan cijeli broj!");
             System.exit(1);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
