@@ -2,10 +2,8 @@ package gui;
 
 import graphics.GraphicalObject;
 import model.DocumentModel;
-import state.AddShapeState;
-import state.IdleState;
-import state.SelectShapeState;
-import state.State;
+import renderer.G2DRendererImpl;
+import state.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -65,16 +63,30 @@ public class GUI extends JFrame {
         objects.stream().filter(o -> o.getShapeName() != null).forEach(o -> toolBar.add(makeButton(o)));
 
         toolBar.add(selectButton());
+        toolBar.add(eraseButton());
 
         this.getContentPane().add(toolBar, BorderLayout.PAGE_START);
     }
 
     private JButton selectButton() {
-        JButton btn = new JButton("Select");
+        JButton btn = new JButton("Selektiraj");
         btn.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCurrentState(new SelectShapeState(model));
+            }
+        });
+        btn.setFocusable(false);
+
+        return btn;
+    }
+
+    private JButton eraseButton() {
+        JButton btn = new JButton("Brisalo");
+        btn.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCurrentState(new EraserState(model));
             }
         });
         btn.setFocusable(false);
