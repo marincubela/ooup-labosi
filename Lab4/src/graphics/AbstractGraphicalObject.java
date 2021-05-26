@@ -73,12 +73,6 @@ public abstract class AbstractGraphicalObject implements GraphicalObject {
     }
 
     @Override
-    public void render(Renderer r) {
-        // TODO implement later or delete from here
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public void addGraphicalObjectListener(GraphicalObjectListener l) {
         listeners.add(l);
     }
@@ -86,24 +80,6 @@ public abstract class AbstractGraphicalObject implements GraphicalObject {
     @Override
     public void removeGraphicalObjectListener(GraphicalObjectListener l) {
         listeners.remove(l);
-    }
-
-    @Override
-    public String getShapeID() {
-        // TODO implement later or delete from here
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void load(Stack<GraphicalObject> stack, String data) {
-        // TODO implement later or delete from here
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void save(List<String> rows) {
-        // TODO implement later or delete from here
-        throw new UnsupportedOperationException();
     }
 
     public void notifyListeners() {

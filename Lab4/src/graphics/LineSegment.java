@@ -1,8 +1,12 @@
 package graphics;
 
+import renderer.Renderer;
 import utils.GeometryUtil;
 import utils.Point;
 import utils.Rectangle;
+
+import java.util.List;
+import java.util.Stack;
 
 public class LineSegment extends AbstractGraphicalObject {
 
@@ -31,6 +35,11 @@ public class LineSegment extends AbstractGraphicalObject {
     }
 
     @Override
+    public void render(Renderer r) {
+        r.drawLine(getHotPoint(0), getHotPoint(1));
+    }
+
+    @Override
     public String getShapeName() {
         return "Linija";
     }
@@ -44,5 +53,23 @@ public class LineSegment extends AbstractGraphicalObject {
         copy.setHotPointSelected(1, isHotPointSelected(1));
 
         return copy;
+    }
+
+    @Override
+    public String getShapeID() {
+        // TODO later
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void load(Stack<GraphicalObject> stack, String data) {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void save(List<String> rows) {
+        // TODO
+        throw new UnsupportedOperationException();
     }
 }

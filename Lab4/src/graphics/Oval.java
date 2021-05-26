@@ -1,7 +1,12 @@
 package graphics;
 
+import renderer.Renderer;
+import utils.GeometryUtil;
 import utils.Point;
 import utils.Rectangle;
+
+import java.util.List;
+import java.util.Stack;
 
 public class Oval extends AbstractGraphicalObject {
     private Point center;
@@ -33,6 +38,32 @@ public class Oval extends AbstractGraphicalObject {
     }
 
     @Override
+    public void render(Renderer r) {
+
+        // horizontal axis
+        double A = GeometryUtil.distanceFromPoint(center, getHotPoint(0));
+        // vertical axis
+        double B = GeometryUtil.distanceFromPoint(center, getHotPoint(1));
+
+        Point[] points = new Point[360];
+
+        // draw the ellipse
+        for (int i = 0; i <= 360; i++) {
+            // from parametric equation of ellipse
+            double x = A * Math.sin(Math.toRadians(i));
+            double y = B * Math.cos(Math.toRadians(i));
+            points[i] = new Point((int) x, (int) y);
+
+            if (i != 0) {
+                // draw a line joining previous and new point .
+                r.drawLine(points[i].translate(center), points[i-1].translate(center));
+            }
+        }
+
+        r.fillPolygon(points);
+    }
+
+    @Override
     public String getShapeName() {
         return "Oval";
     }
@@ -46,5 +77,24 @@ public class Oval extends AbstractGraphicalObject {
         copy.setHotPointSelected(1, isHotPointSelected(1));
 
         return copy;
+    }
+
+
+    @Override
+    public String getShapeID() {
+        // TODO later
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void load(Stack<GraphicalObject> stack, String data) {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void save(List<String> rows) {
+        // TODO
+        throw new UnsupportedOperationException();
     }
 }
