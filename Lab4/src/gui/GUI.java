@@ -2,11 +2,15 @@ package gui;
 
 import graphics.GraphicalObject;
 import model.DocumentModel;
+import state.AddShapeState;
 import state.IdleState;
 import state.State;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 public class GUI extends JFrame {
@@ -21,11 +25,28 @@ public class GUI extends JFrame {
         currentState = new IdleState();
         canvas = new Canvas(model, this);
 
+        model.addDocumentModelListener(canvas::repaint);
+
+        setListeners();
+
         setLocation(1000, 10);
         setSize(600, 600);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         initGUI();
+    }
+
+    private void setListeners() {
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                    setCurrentState(new IdleState());
+                } else {
+                    getCurrentState().keyPressed(e.getKeyCode());
+                }
+            }
+        });
     }
 
     private void initGUI() {
@@ -38,10 +59,24 @@ public class GUI extends JFrame {
 
     private void createToolBar(List<GraphicalObject> objects) {
         JToolBar toolBar = new JToolBar("Tools");
+        toolBar.setFocusable(false);
 
-        objects.forEach(o -> toolBar.add(new JButton(o.getShapeName())));
+        objects.forEach(o -> toolBar.add(makeButton(o)));
 
         this.getContentPane().add(toolBar, BorderLayout.PAGE_START);
+    }
+
+    public JButton makeButton(GraphicalObject object) {
+        JButton btn = new JButton(object.getShapeName());
+        btn.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCurrentState(new AddShapeState(model, object));
+            }
+        });
+        btn.setFocusable(false);
+
+        return btn;
     }
 
     public State getCurrentState() {

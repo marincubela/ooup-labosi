@@ -3,13 +3,10 @@ package gui;
 import model.DocumentModel;
 import renderer.G2DRendererImpl;
 import renderer.Renderer;
-import state.IdleState;
 import utils.Point;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -36,17 +33,6 @@ public class Canvas extends JComponent {
 
 
     private void setListeners() {
-        addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                    gui.setCurrentState(new IdleState());
-                } else {
-                    gui.getCurrentState().keyPressed(e.getKeyCode());
-                }
-            }
-        });
-
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

@@ -1,7 +1,6 @@
 package graphics;
 
 import renderer.Renderer;
-import utils.GeometryUtil;
 import utils.Point;
 import utils.Rectangle;
 
@@ -20,7 +19,7 @@ public class Oval extends AbstractGraphicalObject {
     }
 
     public Oval() {
-        this(new Point(10, 0), new Point(0, 10));
+        this(new Point(100, 0), new Point(0, 100));
     }
 
     @Override
@@ -44,7 +43,7 @@ public class Oval extends AbstractGraphicalObject {
         // horizontal axis
         double A = getBoundingBox().getWidth() * 1.f / 2;
         // vertical axis
-        double B = getBoundingBox().getHeight() * 1.f / 2;;
+        double B = getBoundingBox().getHeight() * 1.f / 2;
 
         Point[] points = new Point[NUMBER_OF_POINTS];
 
@@ -53,7 +52,7 @@ public class Oval extends AbstractGraphicalObject {
             // from parametric equation of ellipse
             double x = A * Math.cos(Math.toRadians(i));
             double y = B * Math.sin(Math.toRadians(i));
-            points[i] = (new Point((int) x, (int) y)).translate(center);
+            points[i] = (new Point((int) x, (int) y)).translate(getCenter());
         }
 
         r.fillPolygon(points);
@@ -92,5 +91,19 @@ public class Oval extends AbstractGraphicalObject {
     public void save(List<String> rows) {
         // TODO
         throw new UnsupportedOperationException();
+    }
+
+    public Point getCenter() {
+        return center;
+    }
+
+    private void setCenter() {
+        center = new Point(getHotPoint(1).getX(), getHotPoint(0).getY());
+    }
+
+    @Override
+    public void setHotPoint(int index, Point point) {
+        super.setHotPoint(index, point);
+        setCenter();
     }
 }
