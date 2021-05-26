@@ -1,4 +1,4 @@
-package graphicals;
+package graphics;
 
 import renderer.Renderer;
 import utils.Point;

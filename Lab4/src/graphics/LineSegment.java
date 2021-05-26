@@ -1,4 +1,4 @@
-package graphicals;
+package graphics;
 
 import utils.GeometryUtil;
 import utils.Point;

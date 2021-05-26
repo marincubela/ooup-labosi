@@ -1,4 +1,4 @@
-package graphicals;
+package graphics;
 
 public interface GraphicalObjectListener {
     /**

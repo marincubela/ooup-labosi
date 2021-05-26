@@ -1,9 +1,8 @@
-package graphicals;
+package graphics;
 
 import renderer.Renderer;
 import utils.GeometryUtil;
 import utils.Point;
-import utils.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
