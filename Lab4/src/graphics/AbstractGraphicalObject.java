@@ -1,18 +1,16 @@
 package graphics;
 
-import renderer.Renderer;
 import utils.GeometryUtil;
 import utils.Point;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Stack;
 
 public abstract class AbstractGraphicalObject implements GraphicalObject {
     private Point[] hotPoints;
     private boolean[] hotPointSelected;
-    private boolean selected;
+    private boolean selected = false;
     private List<GraphicalObjectListener> listeners = new ArrayList<>();
 
     public AbstractGraphicalObject(Point[] hotPoints) {

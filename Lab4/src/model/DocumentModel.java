@@ -56,10 +56,6 @@ public class DocumentModel {
 
     }
 
-    // TODO Delete this comment
-    // Brisanje svih objekata iz modela (pazite da se sve potrebno odregistrira)
-    // i potom obavijeste svi promatrači modela
-
     /**
      * Remove all objects from model and notify listeners
      */
@@ -126,6 +122,14 @@ public class DocumentModel {
      */
     public List<GraphicalObject> getSelectedObjects() {
         return roSelectedObjects;
+    }
+
+    /**
+     * Method that deselects all selected objects
+     */
+    public void deselectAll() {
+        objects.forEach(o -> o.setSelected(false));
+        notifyListeners();
     }
 
     /**

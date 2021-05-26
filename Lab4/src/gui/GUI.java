@@ -4,6 +4,7 @@ import graphics.GraphicalObject;
 import model.DocumentModel;
 import state.AddShapeState;
 import state.IdleState;
+import state.SelectShapeState;
 import state.State;
 
 import javax.swing.*;
@@ -63,7 +64,22 @@ public class GUI extends JFrame {
 
         objects.forEach(o -> toolBar.add(makeButton(o)));
 
+        toolBar.add(selectButton());
+
         this.getContentPane().add(toolBar, BorderLayout.PAGE_START);
+    }
+
+    private JButton selectButton() {
+        JButton btn = new JButton("Select");
+        btn.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setCurrentState(new SelectShapeState(model));
+            }
+        });
+        btn.setFocusable(false);
+
+        return btn;
     }
 
     public JButton makeButton(GraphicalObject object) {
