@@ -39,9 +39,11 @@ public class SelectShapeState implements State {
 
     @Override
     public void mouseUp(Point mousePoint, boolean shiftDown, boolean ctrlDown) {
-        System.out.println("EEeejejejej");
         if (model.getSelectedObjects().size() == 1) {
-            ((AbstractGraphicalObject) model.getSelectedObjects().get(0)).deselectHotPoints();
+            GraphicalObject obj = model.getSelectedObjects().get(0);
+            if (obj instanceof AbstractGraphicalObject) {
+                ((AbstractGraphicalObject) model.getSelectedObjects().get(0)).deselectHotPoints();
+            }
         }
     }
 

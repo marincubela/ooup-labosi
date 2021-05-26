@@ -57,19 +57,25 @@ public class LineSegment extends AbstractGraphicalObject {
 
     @Override
     public String getShapeID() {
-        // TODO later
-        throw new UnsupportedOperationException();
+        return "@LINE";
     }
 
     @Override
     public void load(Stack<GraphicalObject> stack, String data) {
-        // TODO
-        throw new UnsupportedOperationException();
+        String[] lines = data.split(" ");
+        Point s = new Point(Integer.parseInt(lines[1]), Integer.parseInt(lines[2]));
+        Point e = new Point(Integer.parseInt(lines[3]), Integer.parseInt(lines[4]));
+        LineSegment line = new LineSegment(s, e);
+        stack.push(line);
     }
 
     @Override
     public void save(List<String> rows) {
-        // TODO
-        throw new UnsupportedOperationException();
+        String line = getShapeID();
+        line += " " + getHotPoint(0).getX();
+        line += " " + getHotPoint(0).getY();
+        line += " " + getHotPoint(1).getX();
+        line += " " + getHotPoint(1).getY();
+        rows.add(line);
     }
 }

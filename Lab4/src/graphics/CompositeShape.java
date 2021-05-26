@@ -1,5 +1,6 @@
 package graphics;
 
+import org.w3c.dom.css.Rect;
 import renderer.Renderer;
 import utils.Point;
 import utils.Rectangle;
@@ -85,7 +86,26 @@ public class CompositeShape implements GraphicalObject {
 
     @Override
     public double selectionDistance(Point mousePoint) {
-        return 123443211;
+        Rectangle r = getBoundingBox();
+        Point p = mousePoint;
+
+        if(r.getX() >= p.getX() && r.getX() +r.getWidth() <= p.getX() &&
+                r.getY() >= p.getY() && r.getY() +r.getHeight() <= p.getY())  {
+            return 0;
+        }
+
+        Point p1 = new Point(r.getX(), r.getY());
+        Point p2 = new Point(r.getX() + r.getWidth(), r.getY());
+        Point p3 = new Point(r.getX(), r.getY() + r.getHeight());
+        Point p4 = new Point(r.getX() + r.getWidth(), r.getY() + r.getHeight());
+
+        List<LineSegment> lines = new ArrayList<>();
+        lines.add(new LineSegment(p1, p2));
+        lines.add(new LineSegment(p2, p3));
+        lines.add(new LineSegment(p3, p4));
+        lines.add(new LineSegment(p4, p1));
+
+        return lines.stream().mapToDouble(l -> l.selectionDistance(mousePoint)).min().getAsDouble();
     }
 
     @Override
@@ -119,17 +139,27 @@ public class CompositeShape implements GraphicalObject {
 
     @Override
     public String getShapeID() {
-        return null;
+        return "@COMP";
     }
 
     @Override
     public void load(Stack<GraphicalObject> stack, String data) {
+        int x = Integer.parseInt(data.substring(6));
 
+        List<GraphicalObject> list = new ArrayList<>();
+        for(int i = 0; i < x; i++) {
+            list.add(stack.pop());
+        }
+        stack.push(new CompositeShape(list));
     }
 
     @Override
     public void save(List<String> rows) {
+        for(var c : children) {
+            c.save(rows);
+        }
 
+        rows.add(getShapeID() + " " + children.size());
     }
 
     public List<GraphicalObject> getChildren() {

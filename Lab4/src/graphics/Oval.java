@@ -1,9 +1,11 @@
 package graphics;
 
 import renderer.Renderer;
+import utils.GeometryUtil;
 import utils.Point;
 import utils.Rectangle;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
@@ -35,11 +37,30 @@ public class Oval extends AbstractGraphicalObject {
 
     @Override
     public double selectionDistance(Point mousePoint) {
-        return 0;
+        // horizontal axis
+        double A = getBoundingBox().getWidth() * 1.f / 2;
+        // vertical axis
+        double B = getBoundingBox().getHeight() * 1.f / 2;
+
+        double x = mousePoint.getX() - center.getX();
+        double y = mousePoint.getY() - center.getY();
+        double eq = (x * x) / (A * A) + (y * y) / (B * B);
+
+        if (eq <= 1) {
+            return 0;
+        }
+        Point[] points = getPoints();
+
+        return Arrays.stream(points).mapToDouble((point) -> GeometryUtil.distanceFromPoint(point, mousePoint)).min().getAsDouble();
     }
 
     @Override
     public void render(Renderer r) {
+        Point[] points = getPoints();
+        r.fillPolygon(points);
+    }
+
+    private Point[] getPoints() {
         // horizontal axis
         double A = getBoundingBox().getWidth() * 1.f / 2;
         // vertical axis
@@ -54,8 +75,7 @@ public class Oval extends AbstractGraphicalObject {
             double y = B * Math.sin(Math.toRadians(i));
             points[i] = (new Point((int) x, (int) y)).translate(getCenter());
         }
-
-        r.fillPolygon(points);
+        return points;
     }
 
     @Override
@@ -77,20 +97,26 @@ public class Oval extends AbstractGraphicalObject {
 
     @Override
     public String getShapeID() {
-        // TODO later
-        throw new UnsupportedOperationException();
+        return "@OVAL";
     }
 
     @Override
     public void load(Stack<GraphicalObject> stack, String data) {
-        // TODO
-        throw new UnsupportedOperationException();
+        String[] lines = data.split(" ");
+        Point s = new Point(Integer.parseInt(lines[1]), Integer.parseInt(lines[2]));
+        Point e = new Point(Integer.parseInt(lines[3]), Integer.parseInt(lines[4]));
+        Oval oval = new Oval(s, e);
+        stack.push(oval);
     }
 
     @Override
     public void save(List<String> rows) {
-        // TODO
-        throw new UnsupportedOperationException();
+        String line = getShapeID();
+        line += " " + getHotPoint(0).getX();
+        line += " " + getHotPoint(0).getY();
+        line += " " + getHotPoint(1).getX();
+        line += " " + getHotPoint(1).getY();
+        rows.add(line);
     }
 
     public Point getCenter() {
