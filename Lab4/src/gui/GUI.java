@@ -3,6 +3,7 @@ package gui;
 import graphics.GraphicalObject;
 import model.DocumentModel;
 import renderer.G2DRendererImpl;
+import renderer.SVGRendererImpl;
 import state.*;
 
 import javax.swing.*;
@@ -10,6 +11,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 
 public class GUI extends JFrame {
@@ -64,6 +67,7 @@ public class GUI extends JFrame {
 
         toolBar.add(selectButton());
         toolBar.add(eraseButton());
+        toolBar.add(svgButton());
 
         this.getContentPane().add(toolBar, BorderLayout.PAGE_START);
     }
@@ -93,6 +97,40 @@ public class GUI extends JFrame {
 
         return btn;
     }
+
+    private JButton svgButton() {
+        JButton btn = new JButton("SVG Export");
+        btn.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser jfc = new JFileChooser();
+                jfc.setDialogTitle("SVG export");
+                if(jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
+                    return;
+                }
+                String path = jfc.getSelectedFile().getPath();
+
+                if(!path.endsWith(".svg")) {
+                    path += ".svg";
+                }
+
+                SVGRendererImpl svgRenderer = new SVGRendererImpl(path);
+                model.list().forEach(o -> o.render(svgRenderer));
+
+                try {
+                    svgRenderer.close();
+                } catch (IOException ioException) {
+                    JOptionPane.showMessageDialog(GUI.this, "Unable to save the file", "Save failure", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
+        });
+        btn.setFocusable(false);
+
+        return btn;
+    }
+
+
 
     public JButton makeButton(GraphicalObject object) {
         JButton btn = new JButton(object.getShapeName());
