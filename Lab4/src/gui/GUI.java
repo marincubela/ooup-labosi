@@ -62,7 +62,7 @@ public class GUI extends JFrame {
         JToolBar toolBar = new JToolBar("Tools");
         toolBar.setFocusable(false);
 
-        objects.forEach(o -> toolBar.add(makeButton(o)));
+        objects.stream().filter(o -> o.getShapeName() != null).forEach(o -> toolBar.add(makeButton(o)));
 
         toolBar.add(selectButton());
 

@@ -87,4 +87,8 @@ public abstract class AbstractGraphicalObject implements GraphicalObject {
     public void notifySelectionListeners() {
         listeners.forEach(l -> l.graphicalObjectSelectionChanged(this));
     }
+
+    public void deselectHotPoints() {
+        Arrays.fill(hotPointSelected, false);
+    }
 }

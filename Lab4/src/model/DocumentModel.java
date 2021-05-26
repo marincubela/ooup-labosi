@@ -132,6 +132,11 @@ public class DocumentModel {
         notifyListeners();
     }
 
+    public void removeSelected() {
+        objects.removeIf(GraphicalObject::isSelected);
+        selectedObjects.clear();
+    }
+
     /**
      * Move given {@link GraphicalObject} one place higher so it is closer to the front.
      *

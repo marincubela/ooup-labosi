@@ -49,5 +49,12 @@ public class Canvas extends JComponent {
                 gui.getCurrentState().mouseDragged(new Point(e.getX(), e.getY()));
             }
         });
+
+        addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                gui.getCurrentState().mouseDragged(new Point(e.getX(), e.getY()));
+            }
+        });
     }
 }
