@@ -4,9 +4,12 @@ import utils.Point;
 import utils.Rectangle;
 
 public class Oval extends AbstractGraphicalObject {
+    private Point center;
 
     public Oval(Point r, Point b) {
         super(new Point[]{r, b});
+
+        center = new Point(b.getX(), r.getY());
     }
 
     public Oval() {
