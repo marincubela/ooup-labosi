@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Stack;
 
 public class Oval extends AbstractGraphicalObject {
+    private final int NUMBER_OF_POINTS = 360;
+
     private Point center;
 
-    public Oval(Point r, Point b) {
-        super(new Point[]{r, b});
+    public Oval(Point right, Point bottom) {
+        super(new Point[]{right, bottom});
 
-        center = new Point(b.getX(), r.getY());
+        center = new Point(bottom.getX(), right.getY());
     }
 
     public Oval() {
@@ -23,11 +25,11 @@ public class Oval extends AbstractGraphicalObject {
 
     @Override
     public Rectangle getBoundingBox() {
-        int x = 2 * getHotPoint(0).getX() - getHotPoint(1).getX();
-        int y = 2 * getHotPoint(1).getY() - getHotPoint(0).getY();
+        int x = 2 * getHotPoint(1).getX() - getHotPoint(0).getX();
+        int y = 2 * getHotPoint(0).getY() - getHotPoint(1).getY();
 
-        int w = 2 * (getHotPoint(0).getX() - getHotPoint(1).getX());
-        int h = 2 * (getHotPoint(1).getY() - getHotPoint(0).getY());
+        int w = Math.abs(2 * (getHotPoint(0).getX() - getHotPoint(1).getX()));
+        int h = Math.abs(2 * (getHotPoint(1).getY() - getHotPoint(0).getY()));
 
         return new Rectangle(x, y, w, h);
     }
@@ -39,25 +41,19 @@ public class Oval extends AbstractGraphicalObject {
 
     @Override
     public void render(Renderer r) {
-
         // horizontal axis
-        double A = GeometryUtil.distanceFromPoint(center, getHotPoint(0));
+        double A = getBoundingBox().getWidth() * 1.f / 2;
         // vertical axis
-        double B = GeometryUtil.distanceFromPoint(center, getHotPoint(1));
+        double B = getBoundingBox().getHeight() * 1.f / 2;;
 
-        Point[] points = new Point[360];
+        Point[] points = new Point[NUMBER_OF_POINTS];
 
         // draw the ellipse
-        for (int i = 0; i <= 360; i++) {
+        for (int i = 0; i < 360; i++) {
             // from parametric equation of ellipse
-            double x = A * Math.sin(Math.toRadians(i));
-            double y = B * Math.cos(Math.toRadians(i));
-            points[i] = new Point((int) x, (int) y);
-
-            if (i != 0) {
-                // draw a line joining previous and new point .
-                r.drawLine(points[i].translate(center), points[i-1].translate(center));
-            }
+            double x = A * Math.cos(Math.toRadians(i));
+            double y = B * Math.sin(Math.toRadians(i));
+            points[i] = (new Point((int) x, (int) y)).translate(center);
         }
 
         r.fillPolygon(points);

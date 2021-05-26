@@ -15,6 +15,7 @@ public class GUI extends JFrame {
     public GUI(List<GraphicalObject> objects) {
         this.objects = objects;
         model = new DocumentModel();
+
         canvas = new Canvas(model);
         setLocation(1000, 10);
         setSize(600, 600);
@@ -27,8 +28,6 @@ public class GUI extends JFrame {
         this.setLayout(new BorderLayout());
 
         this.getContentPane().add(canvas);
-
-
 
         createToolBar(this.objects);
     }
