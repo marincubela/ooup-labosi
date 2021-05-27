@@ -15,7 +15,7 @@ public class LineSegment extends AbstractGraphicalObject {
     }
 
     public LineSegment() {
-        this(new Point(0, 0), new Point(50, 50));
+        this(new Point(0, 0), new Point(10, 0));
     }
 
     @Override

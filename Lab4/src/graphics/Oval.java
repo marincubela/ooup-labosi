@@ -21,16 +21,19 @@ public class Oval extends AbstractGraphicalObject {
     }
 
     public Oval() {
-        this(new Point(100, 0), new Point(0, 100));
+        this(new Point(10, 0), new Point(0, 10));
     }
 
     @Override
     public Rectangle getBoundingBox() {
-        int x = 2 * getHotPoint(1).getX() - getHotPoint(0).getX();
-        int y = 2 * getHotPoint(0).getY() - getHotPoint(1).getY();
+        Point right = getHotPoint(0);
+        Point bottom = getHotPoint(1);
 
-        int w = Math.abs(2 * (getHotPoint(0).getX() - getHotPoint(1).getX()));
-        int h = Math.abs(2 * (getHotPoint(1).getY() - getHotPoint(0).getY()));
+        int x = right.getX() > bottom.getX() ? 2 * bottom.getX() - right.getX() : right.getX();
+        int y = bottom.getY() > right.getY() ? 2 * right.getY() - bottom.getY() : bottom.getY();
+
+        int w = Math.abs(2 * (right.getX() - bottom.getX()));
+        int h = Math.abs(2 * (bottom.getY() - right.getY()));
 
         return new Rectangle(x, y, w, h);
     }

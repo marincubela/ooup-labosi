@@ -1,6 +1,5 @@
 package graphics;
 
-import org.w3c.dom.css.Rect;
 import renderer.Renderer;
 import utils.Point;
 import utils.Rectangle;
@@ -68,7 +67,7 @@ public class CompositeShape implements GraphicalObject {
 
     @Override
     public Rectangle getBoundingBox() {
-        if(children.isEmpty()) {
+        if (children.isEmpty()) {
             throw new IllegalStateException();
         }
 
@@ -81,23 +80,22 @@ public class CompositeShape implements GraphicalObject {
         int y2 = list.stream().mapToInt(r -> r.getY() + r.getHeight()).max().getAsInt();
 
 
-        return new Rectangle(x, y, Math.abs(x2-x), Math.abs(y2-y));
+        return new Rectangle(x, y, Math.abs(x2 - x), Math.abs(y2 - y));
     }
 
     @Override
     public double selectionDistance(Point mousePoint) {
         Rectangle r = getBoundingBox();
-        Point p = mousePoint;
 
-        if(r.getX() >= p.getX() && r.getX() +r.getWidth() <= p.getX() &&
-                r.getY() >= p.getY() && r.getY() +r.getHeight() <= p.getY())  {
+        if (r.getX() <= mousePoint.getX() && r.getX() + r.getWidth() >= mousePoint.getX() &&
+                r.getY() <= mousePoint.getY() && r.getY() + r.getHeight() >= mousePoint.getY()) {
             return 0;
         }
 
         Point p1 = new Point(r.getX(), r.getY());
         Point p2 = new Point(r.getX() + r.getWidth(), r.getY());
-        Point p3 = new Point(r.getX(), r.getY() + r.getHeight());
-        Point p4 = new Point(r.getX() + r.getWidth(), r.getY() + r.getHeight());
+        Point p3 = new Point(r.getX() + r.getWidth(), r.getY() + r.getHeight());
+        Point p4 = new Point(r.getX(), r.getY() + r.getHeight());
 
         List<LineSegment> lines = new ArrayList<>();
         lines.add(new LineSegment(p1, p2));
@@ -147,7 +145,7 @@ public class CompositeShape implements GraphicalObject {
         int x = Integer.parseInt(data.substring(6));
 
         List<GraphicalObject> list = new ArrayList<>();
-        for(int i = 0; i < x; i++) {
+        for (int i = 0; i < x; i++) {
             list.add(stack.pop());
         }
         stack.push(new CompositeShape(list));
@@ -155,7 +153,7 @@ public class CompositeShape implements GraphicalObject {
 
     @Override
     public void save(List<String> rows) {
-        for(var c : children) {
+        for (var c : children) {
             c.save(rows);
         }
 

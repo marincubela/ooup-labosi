@@ -8,7 +8,7 @@ import utils.Point;
 import java.util.*;
 
 public class DocumentModel {
-    public final static double SELECTION_PROXIMITY = 5;
+    public final static double SELECTION_PROXIMITY = 10;
 
     /**
      * Collection of all graphical objects
