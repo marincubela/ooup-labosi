@@ -12,6 +12,7 @@ public class AddShapeState extends IdleState {
         this.model = model;
         this.prototype = prototype;
     }
+
     @Override
     public void mouseDown(Point mousePoint, boolean shiftDown, boolean ctrlDown) {
         GraphicalObject copy = prototype.duplicate();

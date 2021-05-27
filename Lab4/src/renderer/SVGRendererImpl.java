@@ -41,7 +41,7 @@ public class SVGRendererImpl implements Renderer {
         // <polygon points="..." style="stroke: ...; fill: ...;" />
         String line = "<polygon points=\"";
 
-        for(Point p : points) {
+        for (Point p : points) {
             line += " " + p.getX() + "," + p.getY();
         }
 

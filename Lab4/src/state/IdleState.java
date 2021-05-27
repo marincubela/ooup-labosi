@@ -4,7 +4,7 @@ import graphics.GraphicalObject;
 import renderer.Renderer;
 import utils.Point;
 
-public class IdleState implements State{
+public class IdleState implements State {
     @Override
     public void mouseDown(Point mousePoint, boolean shiftDown, boolean ctrlDown) {
         // Do nothing

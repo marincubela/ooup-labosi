@@ -3,7 +3,6 @@ package gui;
 import graphics.CompositeShape;
 import graphics.GraphicalObject;
 import model.DocumentModel;
-import renderer.G2DRendererImpl;
 import renderer.SVGRendererImpl;
 import state.*;
 
@@ -47,7 +46,7 @@ public class GUI extends JFrame {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     setCurrentState(new IdleState());
                 } else {
                     getCurrentState().keyPressed(e.getKeyCode());
@@ -58,9 +57,7 @@ public class GUI extends JFrame {
 
     private void initGUI() {
         this.setLayout(new BorderLayout());
-
         this.getContentPane().add(canvas);
-
         createToolBar(this.objects);
     }
 
@@ -112,12 +109,12 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser jfc = new JFileChooser();
                 jfc.setDialogTitle("SVG export");
-                if(jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
+                if (jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
                     return;
                 }
                 String path = jfc.getSelectedFile().getPath();
 
-                if(!path.endsWith(".svg")) {
+                if (!path.endsWith(".svg")) {
                     path += ".svg";
                 }
 
@@ -129,7 +126,6 @@ public class GUI extends JFrame {
                 } catch (IOException ioException) {
                     JOptionPane.showMessageDialog(GUI.this, "Unable to save the file", "Save failure", JOptionPane.ERROR_MESSAGE);
                 }
-
             }
         });
         btn.setFocusable(false);
@@ -144,7 +140,7 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser jfc = new JFileChooser();
                 jfc.setDialogTitle("Save");
-                if(jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
+                if (jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
                     return;
                 }
                 String path = jfc.getSelectedFile().getPath();
@@ -156,7 +152,6 @@ public class GUI extends JFrame {
                 } catch (IOException ioException) {
                     JOptionPane.showMessageDialog(GUI.this, "Unable to save the file", "Save failure", JOptionPane.ERROR_MESSAGE);
                 }
-
             }
         });
         btn.setFocusable(false);
@@ -171,7 +166,7 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser jfc = new JFileChooser();
                 jfc.setDialogTitle("Load");
-                if(jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
+                if (jfc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION) {
                     return;
                 }
                 String path = jfc.getSelectedFile().getPath();
@@ -180,36 +175,31 @@ public class GUI extends JFrame {
                 try {
                     rows = Files.readAllLines(Path.of(path));
                     Stack<GraphicalObject> stack = new Stack<>();
-                    for(String s : rows) {
-                        for(var o : objects) {
-                            if(s.startsWith(o.getShapeID())) {
+                    for (String s : rows) {
+                        for (var o : objects) {
+                            if (s.startsWith(o.getShapeID())) {
                                 o.load(stack, s);
                                 break;
                             }
                         }
                         CompositeShape c = new CompositeShape(Collections.emptyList());
-                        if(s.startsWith(c.getShapeID())) {
+                        if (s.startsWith(c.getShapeID())) {
                             c.load(stack, s);
                         }
                     }
 
-                    while(!stack.isEmpty()) {
+                    while (!stack.isEmpty()) {
                         model.addGraphicalObject(stack.pop());
                     }
-
                 } catch (IOException ioException) {
                     JOptionPane.showMessageDialog(GUI.this, "Unable to load the file", "Save failure", JOptionPane.ERROR_MESSAGE);
                 }
-
             }
         });
         btn.setFocusable(false);
 
         return btn;
     }
-
-
-
 
     public JButton makeButton(GraphicalObject object) {
         JButton btn = new JButton(object.getShapeName());

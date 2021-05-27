@@ -1,7 +1,6 @@
 package state;
 
 import graphics.GraphicalObject;
-import gui.Canvas;
 import model.DocumentModel;
 import renderer.Renderer;
 import utils.Point;

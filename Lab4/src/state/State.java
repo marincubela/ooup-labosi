@@ -37,17 +37,13 @@ public interface State {
      */
     void keyPressed(int keyCode);
 
-    // Poziva se nakon što je platno nacrtalo grafički objekt predan kao argument
-
     /**
      * Called after canvas drew graphical object given as argument
      *
-     * @param r renderer responsible for drawing objects
+     * @param r  renderer responsible for drawing objects
      * @param go object to be drawn
      */
     void afterDraw(Renderer r, GraphicalObject go);
-
-    // Poziva se nakon što je platno nacrtalo čitav crtež
 
     /**
      * Called after canvas drew any object

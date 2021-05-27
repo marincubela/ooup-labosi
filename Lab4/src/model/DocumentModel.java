@@ -182,7 +182,7 @@ public class DocumentModel {
     /**
      * Returns index of closest hotpoint of a given object if it is in selection proximity, else -1
      *
-     * @param object object whose selected hotpoints are testet
+     * @param object     object whose selected hotpoints are testet
      * @param mousePoint given point
      * @return index of closest hotpoint to given point or -1 if there is no such one
      */
